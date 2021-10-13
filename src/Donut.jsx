@@ -5,6 +5,7 @@ import useKeyPress from "./hooks/useKeyPress";
 import SequencerTrack from "./SequencerTrack";
 import SequencerTransport from "./SequencerTransport";
 import { sequencerMap } from "./helpers";
+import "./Donut.css";
 
 import { initialState, sequencerReducer } from "./reducers/sequencerReducer";
 

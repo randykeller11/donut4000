@@ -1,19 +1,15 @@
 import React, { useState } from "react";
+import "./SequencerCell.css";
 
-function SequencerCell({ timeStamp, displayTime, dispatch, soundTarget }) {
+function SequencerCell({
+  timeStamp,
+  displayTime,
+  dispatch,
+  soundTarget,
+  isMeasureEnd,
+}) {
   const [isActive, setIsActive] = useState(false);
-  const checkLocation = () => {
-    if (
-      timeStamp === "0:0:0" ||
-      timeStamp === "1:0:0" ||
-      timeStamp === "2:0:0" ||
-      timeStamp === "3:0:0"
-    ) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+
   const clickHandler = () => {
     let updatedActiveStatus = !isActive;
     setIsActive(updatedActiveStatus);
@@ -29,29 +25,56 @@ function SequencerCell({ timeStamp, displayTime, dispatch, soundTarget }) {
       });
     }
   };
-  if (timeStamp === displayTime && isActive) {
-    return (
-      <div className="seqCell__playing__active" onClick={clickHandler}></div>
-    );
-  }
-  if (timeStamp === displayTime && !isActive) {
-    return (
-      <div className="seqCell__playing__inactive" onClick={clickHandler}></div>
-    );
-  }
-  if (timeStamp != displayTime && isActive) {
-    return (
-      <div className="seqCell__notPlaying__active" onClick={clickHandler}></div>
-    );
-  }
-  if (timeStamp != displayTime && isActive) {
-    return (
-      <div
-        className="seqCell__notPlaying__inactive"
-        onClick={clickHandler}
-      ></div>
-    );
-  } else return <h1>loading</h1>;
+
+  return (
+    <>
+      {!isMeasureEnd && timeStamp === displayTime && isActive && (
+        <div className="seqCell__playing__active" onClick={clickHandler}></div>
+      )}
+      {!isMeasureEnd && timeStamp === displayTime && !isActive && (
+        <div
+          className="seqCell__playing__inactive"
+          onClick={clickHandler}
+        ></div>
+      )}
+      {!isMeasureEnd && timeStamp != displayTime && isActive && (
+        <div
+          className="seqCell__notPlaying__active"
+          onClick={clickHandler}
+        ></div>
+      )}
+      {!isMeasureEnd && timeStamp != displayTime && !isActive && (
+        <div
+          className="seqCell__notPlaying__inactive"
+          onClick={clickHandler}
+        ></div>
+      )}
+      {isMeasureEnd && timeStamp === displayTime && isActive && (
+        <div
+          className="seqCell__ME__playing__active"
+          onClick={clickHandler}
+        ></div>
+      )}
+      {isMeasureEnd && timeStamp === displayTime && !isActive && (
+        <div
+          className="seqCell__ME__playing__inactive"
+          onClick={clickHandler}
+        ></div>
+      )}
+      {isMeasureEnd && timeStamp != displayTime && isActive && (
+        <div
+          className="seqCell__ME__notPlaying__active"
+          onClick={clickHandler}
+        ></div>
+      )}
+      {isMeasureEnd && timeStamp != displayTime && !isActive && (
+        <div
+          className="seqCell__ME__notPlaying__inactive"
+          onClick={clickHandler}
+        ></div>
+      )}
+    </>
+  );
 }
 
 export default SequencerCell;
