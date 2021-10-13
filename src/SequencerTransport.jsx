@@ -20,6 +20,13 @@ function SequencerTransport({ bpm, setBpm }) {
       </button>
       <button
         onClick={() => {
+          Tone.Transport.pause();
+        }}
+      >
+        pause
+      </button>
+      <button
+        onClick={() => {
           Tone.Transport.stop();
         }}
       >

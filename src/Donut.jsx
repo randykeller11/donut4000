@@ -11,7 +11,7 @@ import { initialState, sequencerReducer } from "./reducers/sequencerReducer";
 function Donut() {
   const [players, loading] = useLoadPlayers();
   const [targetPlayer, setTargetPlayer] = useState(0);
-  const [keyPressedDown, keyPressedUp, setKeyPressedUp] = useKeyPress("a");
+  const [keyPressedDown, keyPressedUp, setKeyPressedUp] = useKeyPress(" ");
   const [currentBeat, setCurrentBeat] = useState("0:0:0");
   const [displayTime, setDisplayTime] = useState("0:0:0");
   const [bpm, setBpm] = useState(80);
@@ -39,7 +39,7 @@ function Donut() {
     Tone.Transport.setLoopPoints(0, "4m");
     Tone.Transport.loop = true;
     Tone.Transport.bpm.value = 80;
-    Tone.Transport.swing = 0.5;
+    Tone.Transport.swing = 0.3;
     Tone.Transport.swingSubdivision = "16n";
   }, []);
 
@@ -54,6 +54,16 @@ function Donut() {
       }
     });
   }, [currentBeat]);
+
+  useEffect(() => {
+    if (keyPressedDown) {
+      if (Tone.Transport.state === "started") {
+        Tone.Transport.stop();
+      } else {
+        Tone.Transport.start();
+      }
+    }
+  }, [keyPressedDown]);
 
   return (
     <div>
