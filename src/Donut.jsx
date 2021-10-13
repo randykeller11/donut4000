@@ -11,6 +11,7 @@ function Donut() {
   const [keyPressedDown, keyPressedUp, setKeyPressedUp] = useKeyPress("a");
   const [currentBeat, setCurrentBeat] = useState("0:0:0");
   const [displayTime, setDisplayTime] = useState("0:0:0");
+  const [bpm, setBpm] = useState(80);
 
   const quantizeTransportPosition = (transportValue) => {
     const position = transportValue.split(":");
@@ -34,6 +35,10 @@ function Donut() {
     Tone.Transport.loop = true;
     Tone.Transport.bpm.value = 80;
   }, []);
+
+  useEffect(() => {
+    Tone.Transport.bpm.value = bpm;
+  }, [bpm]);
 
   const buildMap = () => {
     return timeStampArray.map((timeStamp, index) => (
@@ -64,6 +69,23 @@ function Donut() {
       >
         stop
       </button>
+      <div style={{ display: "flex" }}>
+        <h3
+          onClick={() => {
+            setBpm(bpm - 1);
+          }}
+        >
+          ⬅️
+        </h3>
+        <h3>{bpm}</h3>
+        <h3
+          onClick={() => {
+            setBpm(bpm + 1);
+          }}
+        >
+          ➡️
+        </h3>
+      </div>
       <div style={{ display: "flex" }}>{buildMap()}</div>
       <h1>display time:{displayTime}</h1>
       <h1>current beat: {currentBeat}</h1>
