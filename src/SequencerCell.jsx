@@ -51,7 +51,7 @@ function SequencerCell({ timeStamp, displayTime, dispatch, soundTarget }) {
         onClick={clickHandler}
       ></div>
     );
-  }
+  } else return <h1>loading</h1>;
 }
 
 export default SequencerCell;

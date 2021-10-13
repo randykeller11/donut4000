@@ -69,15 +69,16 @@ function Donut() {
     <div>
       <h1>Welcome to the 🍩 Donut 5000</h1>
       <SequencerTransport bpm={bpm} setBpm={setBpm} />
-
-      {sequencerMap.map((name, index) => (
-        <SequencerTrack
-          displayTime={displayTime}
-          dispatch={dispatch}
-          soundTarget={index}
-          name={name}
-        />
-      ))}
+      <div className="sequencer">
+        {sequencerMap.map((name, index) => (
+          <SequencerTrack
+            displayTime={displayTime}
+            dispatch={dispatch}
+            soundTarget={index}
+            name={name}
+          />
+        ))}
+      </div>
 
       <h1>display time:{displayTime}</h1>
       <h1>current beat: {currentBeat}</h1>
