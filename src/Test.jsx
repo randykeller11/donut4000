@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as Tone from "tone";
 import snare from "./assets/sounds/snare.wav";
-import useKeyPress from "./useKeyPress";
+import useKeyPress from "./hooks/useKeyPress";
 
 function Test() {
   const [soundLoaded, setSoundLoaded] = useState(false);
