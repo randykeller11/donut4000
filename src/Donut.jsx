@@ -38,6 +38,8 @@ function Donut() {
     Tone.Transport.setLoopPoints(0, "4m");
     Tone.Transport.loop = true;
     Tone.Transport.bpm.value = 80;
+    Tone.Transport.swing = 0.5;
+    Tone.Transport.swingSubdivision = "16n";
   }, []);
 
   useEffect(() => {
