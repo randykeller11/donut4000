@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import * as Tone from "tone";
 import useLoadPlayers from "./hooks/useLoadPlayers";
 import useKeyPress from "./hooks/useKeyPress";
 import SequencerCell from "./SequencerCell";
 import { timeStampArray } from "./helpers";
+import { initialState, sequencerReducer } from "./reducers/sequencerReducer";
 
 function Donut() {
   const [players, loading] = useLoadPlayers();
@@ -12,6 +13,9 @@ function Donut() {
   const [currentBeat, setCurrentBeat] = useState("0:0:0");
   const [displayTime, setDisplayTime] = useState("0:0:0");
   const [bpm, setBpm] = useState(80);
+  const [soundTarget, setSoundTarget] = useState(0);
+
+  const [sequencerState, dispatch] = useReducer(sequencerReducer, initialState);
 
   const quantizeTransportPosition = (transportValue) => {
     const position = transportValue.split(":");
@@ -40,9 +44,22 @@ function Donut() {
     Tone.Transport.bpm.value = bpm;
   }, [bpm]);
 
+  useEffect(() => {
+    sequencerState.forEach((recording) => {
+      if (recording.timeStamp === currentBeat) {
+        players[recording.soundTarget].start();
+      }
+    });
+  }, [currentBeat]);
+
   const buildMap = () => {
     return timeStampArray.map((timeStamp, index) => (
-      <SequencerCell timeStamp={timeStamp} displayTime={displayTime} />
+      <SequencerCell
+        timeStamp={timeStamp}
+        displayTime={displayTime}
+        dispatch={dispatch}
+        soundTarget={soundTarget}
+      />
     ));
   };
   return (
@@ -70,6 +87,7 @@ function Donut() {
         stop
       </button>
       <div style={{ display: "flex" }}>
+        <h3>BPM</h3>
         <h3
           onClick={() => {
             setBpm(bpm - 1);
@@ -86,6 +104,25 @@ function Donut() {
           ➡️
         </h3>
       </div>
+      <div style={{ display: "flex" }}>
+        <h3>Sound Target</h3>
+        <h3
+          onClick={() => {
+            setSoundTarget(soundTarget - 1);
+          }}
+        >
+          ⬅️
+        </h3>
+        <h3>{soundTarget}</h3>
+        <h3
+          onClick={() => {
+            setSoundTarget(soundTarget + 1);
+          }}
+        >
+          ➡️
+        </h3>
+      </div>
+
       <div style={{ display: "flex" }}>{buildMap()}</div>
       <h1>display time:{displayTime}</h1>
       <h1>current beat: {currentBeat}</h1>
