@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer } from "react";
 import * as Tone from "tone";
 import useLoadPlayers from "./hooks/useLoadPlayers";
 import useKeyPress from "./hooks/useKeyPress";
-import SequencerCell from "./SequencerCell";
-import { timeStampArray } from "./helpers";
+import SequencerTrack from "./SequencerTrack";
+import SequencerTransport from "./SequencerTransport";
+import { sequencerMap } from "./helpers";
+
+import { initialState, sequencerReducer } from "./reducers/sequencerReducer";
 
 function Donut() {
   const [players, loading] = useLoadPlayers();
   const [targetPlayer, setTargetPlayer] = useState(0);
-  const [keyPressedDown, keyPressedUp, setKeyPressedUp] = useKeyPress("a");
+  const [keyPressedDown, keyPressedUp, setKeyPressedUp] = useKeyPress(" ");
   const [currentBeat, setCurrentBeat] = useState("0:0:0");
   const [displayTime, setDisplayTime] = useState("0:0:0");
   const [bpm, setBpm] = useState(80);
+
+  const [sequencerState, dispatch] = useReducer(sequencerReducer, initialState);
 
   const quantizeTransportPosition = (transportValue) => {
     const position = transportValue.split(":");
@@ -34,59 +39,46 @@ function Donut() {
     Tone.Transport.setLoopPoints(0, "4m");
     Tone.Transport.loop = true;
     Tone.Transport.bpm.value = 80;
+    Tone.Transport.swing = 0.3;
+    Tone.Transport.swingSubdivision = "16n";
   }, []);
 
   useEffect(() => {
     Tone.Transport.bpm.value = bpm;
   }, [bpm]);
 
-  const buildMap = () => {
-    return timeStampArray.map((timeStamp, index) => (
-      <SequencerCell timeStamp={timeStamp} displayTime={displayTime} />
-    ));
-  };
+  useEffect(() => {
+    sequencerState.forEach((recording) => {
+      if (recording.timeStamp === currentBeat) {
+        players[recording.soundTarget].start();
+      }
+    });
+  }, [currentBeat]);
+
+  useEffect(() => {
+    if (keyPressedDown) {
+      if (Tone.Transport.state === "started") {
+        Tone.Transport.stop();
+      } else {
+        Tone.Transport.start();
+      }
+    }
+  }, [keyPressedDown]);
+
   return (
     <div>
       <h1>Welcome to the 🍩 Donut 5000</h1>
-      <button
-        onClick={() => {
-          Tone.start();
-        }}
-      >
-        Tone Start
-      </button>
-      <button
-        onClick={() => {
-          Tone.Transport.start();
-        }}
-      >
-        play
-      </button>
-      <button
-        onClick={() => {
-          Tone.Transport.stop();
-        }}
-      >
-        stop
-      </button>
-      <div style={{ display: "flex" }}>
-        <h3
-          onClick={() => {
-            setBpm(bpm - 1);
-          }}
-        >
-          ⬅️
-        </h3>
-        <h3>{bpm}</h3>
-        <h3
-          onClick={() => {
-            setBpm(bpm + 1);
-          }}
-        >
-          ➡️
-        </h3>
-      </div>
-      <div style={{ display: "flex" }}>{buildMap()}</div>
+      <SequencerTransport bpm={bpm} setBpm={setBpm} />
+
+      {sequencerMap.map((name, index) => (
+        <SequencerTrack
+          displayTime={displayTime}
+          dispatch={dispatch}
+          soundTarget={index}
+          name={name}
+        />
+      ))}
+
       <h1>display time:{displayTime}</h1>
       <h1>current beat: {currentBeat}</h1>
     </div>

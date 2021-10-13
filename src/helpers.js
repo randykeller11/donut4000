@@ -1,3 +1,22 @@
+export const sequencerMap = [
+  "snare",
+  "snare2",
+  "snare3",
+  "snare4",
+  "hit",
+  "hit2",
+  "hit3",
+  "hit4",
+  "perc",
+  "perc2",
+  "perc3",
+  "perc4",
+  "kick",
+  "kick2",
+  "kick3",
+  "kick4",
+];
+
 export const timeStampArray = [
   "0:0:0",
   "0:0:1",
