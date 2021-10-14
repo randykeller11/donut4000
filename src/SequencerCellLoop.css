@@ -1,0 +1,27 @@
+.seqLoopCell__notPlaying__inactive {
+  border: 1px solid black;
+  height: 2vh;
+  width: 100%;
+  background-color: lightblue;
+}
+
+.seqLoopCell__notPlaying__active {
+  border: 1px solid black;
+  height: 2vh;
+  width: 100%;
+  background-color: yellow;
+}
+
+.seqLoopCell__playing__inactive {
+  border: 1px solid black;
+  height: 2vh;
+  width: 100%;
+  background-color: red;
+}
+
+.seqLoopCell__playing__active {
+  border: 1px solid black;
+  height: 2vh;
+  width: 100%;
+  background-color: orange;
+}

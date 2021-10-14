@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./SequencerCell.css";
+import "./SequencerCellOneShot.css";
 
-function SequencerCell({
+function SequencerCellOneShot({
   timeStamp,
   displayTime,
   dispatch,
@@ -16,7 +16,11 @@ function SequencerCell({
     if (updatedActiveStatus) {
       dispatch({
         type: "add",
-        payload: { timeStamp: timeStamp, soundTarget: soundTarget },
+        payload: {
+          timeStamp: timeStamp,
+          soundTarget: soundTarget,
+          type: "oneShot",
+        },
       });
     } else if (!updatedActiveStatus) {
       dispatch({
@@ -77,4 +81,4 @@ function SequencerCell({
   );
 }
 
-export default SequencerCell;
+export default SequencerCellOneShot;

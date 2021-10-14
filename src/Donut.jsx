@@ -2,10 +2,12 @@ import React, { useState, useEffect, useReducer } from "react";
 import * as Tone from "tone";
 import useLoadPlayers from "./hooks/useLoadPlayers";
 import useKeyPress from "./hooks/useKeyPress";
-import SequencerTrack from "./SequencerTrack";
+import SequencerTrackOneShot from "./SequencerTrackOneShot";
 import SequencerTransport from "./SequencerTransport";
 import { sequencerMap } from "./helpers";
 import "./Donut.css";
+import useDynamicPlayers from "./hooks/useDynamicPlayers";
+import SequencerTrackLoop from "./SequencerTrackLoop";
 
 import { initialState, sequencerReducer } from "./reducers/sequencerReducer";
 
@@ -16,6 +18,7 @@ function Donut() {
   const [currentBeat, setCurrentBeat] = useState("0:0:0");
   const [displayTime, setDisplayTime] = useState("0:0:0");
   const [bpm, setBpm] = useState(80);
+  const [dynamicPlayer, dynamicPlayerLoading] = useDynamicPlayers();
 
   const [sequencerState, dispatch] = useReducer(sequencerReducer, initialState);
 
@@ -51,7 +54,11 @@ function Donut() {
   useEffect(() => {
     sequencerState.forEach((recording) => {
       if (recording.timeStamp === currentBeat) {
-        players[recording.soundTarget].start();
+        if (recording.type === "oneShot") {
+          players[recording.soundTarget].start();
+        } else if (recording.type === "loop") {
+          dynamicPlayer.start();
+        }
       }
     });
   }, [currentBeat]);
@@ -60,6 +67,7 @@ function Donut() {
     if (keyPressedDown) {
       if (Tone.Transport.state === "started") {
         Tone.Transport.stop();
+        dynamicPlayer.stop();
       } else {
         Tone.Transport.start();
       }
@@ -72,13 +80,21 @@ function Donut() {
       <SequencerTransport bpm={bpm} setBpm={setBpm} />
       <div className="sequencer">
         {sequencerMap.map((name, index) => (
-          <SequencerTrack
+          <SequencerTrackOneShot
             displayTime={displayTime}
             dispatch={dispatch}
             soundTarget={index}
             name={name}
           />
         ))}
+        {!dynamicPlayerLoading && (
+          <SequencerTrackLoop
+            dispatch={dispatch}
+            soundTarget={0}
+            displayTime={displayTime}
+            loopLength={"1m"}
+          />
+        )}
       </div>
 
       <h1>display time:{displayTime}</h1>
