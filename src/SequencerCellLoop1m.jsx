@@ -1,8 +1,15 @@
 import React, { useState } from "react";
-import "./SequencerCellLoop.css";
-import { timeStampArray } from "./helpers";
+import "./SequencerCellLoop1m.css";
+import { timeStampArray, calcLoopTimeStamps } from "./helpers";
 
-function SequencerCellLoop({ displayTime, dispatch, soundTarget, loopLength }) {
+function SequencerCellLoop1m({
+  displayTime,
+  dispatch,
+  soundTarget,
+  loopLength,
+  timeStamp,
+  loopPosition,
+}) {
   const [isActive, setIsActive] = useState(false);
 
   const clickHandler = () => {
@@ -12,7 +19,7 @@ function SequencerCellLoop({ displayTime, dispatch, soundTarget, loopLength }) {
       dispatch({
         type: "add",
         payload: {
-          timeStamp: "0:0:0",
+          timeStamp: timeStamp,
           soundTarget: soundTarget,
           type: "loop",
         },
@@ -20,12 +27,13 @@ function SequencerCellLoop({ displayTime, dispatch, soundTarget, loopLength }) {
     } else if (!updatedActiveStatus) {
       dispatch({
         type: "remove",
-        payload: { timeStamp: "0:0:0", soundTarget: soundTarget },
+        payload: { timeStamp: timeStamp, soundTarget: soundTarget },
       });
     }
   };
 
   const timeStamps = timeStampArray;
+
   return (
     <>
       {timeStamps.includes(displayTime) && isActive && (
@@ -56,4 +64,4 @@ function SequencerCellLoop({ displayTime, dispatch, soundTarget, loopLength }) {
   );
 }
 
-export default SequencerCellLoop;
+export default SequencerCellLoop1m;

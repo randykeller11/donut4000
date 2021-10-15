@@ -16,7 +16,7 @@ function Donut() {
   const [keyPressedDown, keyPressedUp, setKeyPressedUp] = useKeyPress(" ");
   const [currentBeat, setCurrentBeat] = useState(null);
   const [displayTime, setDisplayTime] = useState(null);
-  const [bpm, setBpm] = useState(80);
+  const [bpm, setBpm] = useState(90);
   const [dynamicPlayer, dynamicPlayerLoading] = useDynamicPlayers();
 
   const [sequencerState, dispatch] = useReducer(sequencerReducer, initialState);
@@ -41,7 +41,7 @@ function Donut() {
 
     Tone.Transport.setLoopPoints(0, "4m");
     Tone.Transport.loop = true;
-    Tone.Transport.bpm.value = 80;
+    Tone.Transport.bpm.value = 90;
     Tone.Transport.swing = 0.3;
     Tone.Transport.swingSubdivision = "16n";
   }, []);
@@ -76,7 +76,6 @@ function Donut() {
     if (Tone.Transport.state != "started") {
       setCurrentBeat(null);
       setDisplayTime(null);
-      dynamicPlayer.stop();
     }
   }, [Tone.Transport.state]);
 
