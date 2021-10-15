@@ -13,10 +13,9 @@ import { initialState, sequencerReducer } from "./reducers/sequencerReducer";
 
 function Donut() {
   const [players, loading] = useLoadPlayers();
-  const [targetPlayer, setTargetPlayer] = useState(0);
   const [keyPressedDown, keyPressedUp, setKeyPressedUp] = useKeyPress(" ");
-  const [currentBeat, setCurrentBeat] = useState("0:0:0");
-  const [displayTime, setDisplayTime] = useState("0:0:0");
+  const [currentBeat, setCurrentBeat] = useState(null);
+  const [displayTime, setDisplayTime] = useState(null);
   const [bpm, setBpm] = useState(80);
   const [dynamicPlayer, dynamicPlayerLoading] = useDynamicPlayers();
 
