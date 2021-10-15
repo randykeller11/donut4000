@@ -6,7 +6,7 @@ import SequencerTrackOneShot from "./SequencerTrackOneShot";
 import SequencerTransport from "./SequencerTransport";
 import { sequencerMap } from "./helpers";
 import "./Donut.css";
-import useDynamicPlayers from "./hooks/useDynamicPlayers";
+import usePianoLoops from "./hooks/usePianoLoops";
 import SequencerTrackLoop from "./SequencerTrackLoop";
 
 import { initialState, sequencerReducer } from "./reducers/sequencerReducer";
@@ -17,7 +17,7 @@ function Donut() {
   const [currentBeat, setCurrentBeat] = useState(null);
   const [displayTime, setDisplayTime] = useState(null);
   const [bpm, setBpm] = useState(90);
-  const [dynamicPlayer, dynamicPlayerLoading] = useDynamicPlayers();
+  const [pianoLoops, pianoLoopsLoading] = usePianoLoops();
 
   const [sequencerState, dispatch] = useReducer(sequencerReducer, initialState);
 
@@ -56,7 +56,7 @@ function Donut() {
         if (recording.type === "oneShot") {
           players[recording.soundTarget].start();
         } else if (recording.type === "loop") {
-          dynamicPlayer.start();
+          pianoLoops[recording.soundTarget].player.start();
         }
       }
     });
@@ -79,6 +79,16 @@ function Donut() {
     }
   }, [Tone.Transport.state]);
 
+  useEffect(() => {
+    if (pianoLoops) {
+      pianoLoops.forEach((loop) => {
+        loop.player.playbackRate = Number(
+          (Tone.Transport.bpm.value / loop.bpm).toFixed(2)
+        );
+      });
+    }
+  }, [Tone.Transport.bpm.value]);
+
   return (
     <div>
       <h1>Welcome to the 🍩 Donut 5000</h1>
@@ -92,14 +102,15 @@ function Donut() {
             name={name}
           />
         ))}
-        {!dynamicPlayerLoading && (
-          <SequencerTrackLoop
-            dispatch={dispatch}
-            soundTarget={0}
-            displayTime={displayTime}
-            loopLength={"1/2m"}
-          />
-        )}
+        {!pianoLoopsLoading &&
+          pianoLoops.map((loop, i) => (
+            <SequencerTrackLoop
+              dispatch={dispatch}
+              soundTarget={i}
+              displayTime={displayTime}
+              loopLength={"1/2m"}
+            />
+          ))}
       </div>
 
       <h1>display time:{displayTime}</h1>

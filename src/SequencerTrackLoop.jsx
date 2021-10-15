@@ -30,7 +30,7 @@ function SequencerTrackLoop({
           <SeqCellLoopHalfm
             displayTime={displayTime}
             dispatch={dispatch}
-            soundTarget={0}
+            soundTarget={soundTarget}
             loopLength={loopLength}
             timeStamp={_ts}
             loopPosition={i}
