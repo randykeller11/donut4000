@@ -1,5 +1,6 @@
 import React from "react";
 import SequencerCellLoop1m from "./SequencerCellLoop1m";
+import SeqCellLoopHalfm from "./SeqCellLoopHalfm";
 
 function SequencerTrackLoop({
   dispatch,
@@ -24,6 +25,17 @@ function SequencerTrackLoop({
           loopPosition={0}
         />
       )}
+      {loopLength === "1/2m" &&
+        timeStampDictionary[1].map((_ts, i) => (
+          <SeqCellLoopHalfm
+            displayTime={displayTime}
+            dispatch={dispatch}
+            soundTarget={0}
+            loopLength={loopLength}
+            timeStamp={_ts}
+            loopPosition={i}
+          />
+        ))}
     </div>
   );
 }

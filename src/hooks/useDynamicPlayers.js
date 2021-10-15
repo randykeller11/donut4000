@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import * as Tone from "tone";
-import guitarLoop from "../assets/sounds/guitarLoop.wav";
+import pianoLoop from "../assets/sounds/pianoLoop.wav";
 
 function useDynamicPlayers() {
   const [player, setPlayer] = useState(null);
@@ -8,7 +8,7 @@ function useDynamicPlayers() {
   useEffect(() => {
     const importSound = () => {
       try {
-        setPlayer(new Tone.Player({ url: guitarLoop }).toDestination());
+        setPlayer(new Tone.Player({ url: pianoLoop }).toDestination());
       } catch (error) {
         console.log(error);
       }

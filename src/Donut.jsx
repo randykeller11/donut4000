@@ -97,7 +97,7 @@ function Donut() {
             dispatch={dispatch}
             soundTarget={0}
             displayTime={displayTime}
-            loopLength={"1m"}
+            loopLength={"1/2m"}
           />
         )}
       </div>
