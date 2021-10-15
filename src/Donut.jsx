@@ -66,12 +66,19 @@ function Donut() {
     if (keyPressedDown) {
       if (Tone.Transport.state === "started") {
         Tone.Transport.stop();
-        dynamicPlayer.stop();
       } else {
         Tone.Transport.start();
       }
     }
   }, [keyPressedDown]);
+
+  useEffect(() => {
+    if (Tone.Transport.state != "started") {
+      setCurrentBeat(null);
+      setDisplayTime(null);
+      dynamicPlayer.stop();
+    }
+  }, [Tone.Transport.state]);
 
   return (
     <div>
