@@ -83,3 +83,50 @@ export const timeStampArray = [
   "3:3:2",
   "3:3:3",
 ];
+
+export const calcLoopTimeStamps = (_tsArray, _loopLength, _loopPosition) => {
+  const localArray = [];
+  if (_loopLength === "1/4m" && _loopPosition === 0) {
+    _tsArray.forEach((_ts, index) => {
+      if (index < 16) {
+        localArray.push(_ts);
+      } else return;
+    });
+  }
+  if (_loopLength === "1/4m" && _loopPosition === 1) {
+    _tsArray.forEach((_ts, index) => {
+      if (index >= 16 && index < 32) {
+        localArray.push(_ts);
+      } else return;
+    });
+  }
+  if (_loopLength === "1/4m" && _loopPosition === 2) {
+    _tsArray.forEach((_ts, index) => {
+      if (index >= 32 && index < 48) {
+        localArray.push(_ts);
+      } else return;
+    });
+  }
+  if (_loopLength === "1/4m" && _loopPosition === 3) {
+    _tsArray.forEach((_ts, index) => {
+      if (index >= 48 && index < 64) {
+        localArray.push(_ts);
+      } else return;
+    });
+  }
+  if (_loopLength === "1/2m" && _loopPosition === 0) {
+    _tsArray.forEach((_ts, index) => {
+      if (index < 32) {
+        localArray.push(_ts);
+      } else return;
+    });
+  }
+  if (_loopLength === "1/2m" && _loopPosition === 1) {
+    _tsArray.forEach((_ts, index) => {
+      if (index >= 32 && index < 64) {
+        localArray.push(_ts);
+      } else return;
+    });
+  }
+  return localArray;
+};

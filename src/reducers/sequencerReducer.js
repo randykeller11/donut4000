@@ -8,6 +8,7 @@ export const sequencerReducer = (state, action) => {
         {
           soundTarget: action.payload.soundTarget,
           timeStamp: action.payload.timeStamp,
+          type: action.payload.type,
         },
       ];
     case "remove":

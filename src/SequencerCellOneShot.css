@@ -1,0 +1,67 @@
+.seqCell__notPlaying__inactive {
+  border: 1px solid black;
+  height: 2vh;
+  width: 6.25%;
+  background-color: lightblue;
+}
+
+.seqCell__notPlaying__active {
+  border: 1px solid black;
+  height: 2vh;
+  width: 6.25%;
+  background-color: yellow;
+}
+
+.seqCell__playing__inactive {
+  border: 1px solid black;
+  height: 2vh;
+  width: 6.25%;
+  background-color: red;
+}
+
+.seqCell__playing__active {
+  border: 1px solid black;
+  height: 2vh;
+  width: 6.25%;
+  background-color: orange;
+}
+
+.seqCell__ME__notPlaying__inactive {
+  border-right: 1px solid black;
+  border-left: 3px solid black;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  height: 2vh;
+  width: 6.25%;
+  background-color: lightblue;
+}
+
+.seqCell__ME__notPlaying__active {
+  border-right: 1px solid black;
+  border-left: 3px solid black;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  height: 2vh;
+  width: 6.25%;
+  background-color: yellow;
+}
+
+.seqCell__ME__playing__inactive {
+  border-right: 1px solid black;
+  border-left: 3px solid black;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  height: 2vh;
+  width: 6.25%;
+  background-color: red;
+}
+
+.seqCell__ME__playing__active {
+  border-right: 1px solid black;
+  border-left: 3px solid black;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  height: 2vh;
+  width: 6.25%;
+  background-color: orange;
+}
