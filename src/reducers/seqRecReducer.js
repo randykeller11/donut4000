@@ -1,20 +1,21 @@
-export const initialState = [];
+export const initSeqRecState = [];
 
-export const sequencerReducer = (state, action) => {
+export const seqRecReducer = (state, action) => {
   switch (action.type) {
     case "add":
       return [
         ...state,
         {
-          soundTarget: action.payload.soundTarget,
+          presetId: action.payload.presetId,
+          soundLocation: action.payload.soundLocation,
           timeStamp: action.payload.timeStamp,
-          type: action.payload.type,
         },
       ];
     case "remove":
       return state.filter((recording) => {
         if (
-          recording.soundTarget === action.payload.soundTarget &&
+          recording.presetId === action.payload.presetId &&
+          recording.soundLocation === action.payload.soundLocation &&
           recording.timeStamp === action.payload.timeStamp
         ) {
         } else {

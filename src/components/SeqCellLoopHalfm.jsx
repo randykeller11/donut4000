@@ -1,33 +1,45 @@
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import "./SeqCellLoopHalfm.css";
-import { timeStampArray, calcLoopTimeStamps } from "./helpers";
+import { timeStampArray, calcLoopTimeStamps } from "../helpers";
+import { seqContext } from "../pages/Donut";
 
 function SeqCellLoopHalfm({
-  displayTime,
-  dispatch,
-  soundTarget,
+  player,
+  soundLocation,
+  presetId,
+  loopLength,
   timeStamp,
   loopPosition,
 }) {
+  const {
+    bpm,
+    displayTime,
+    seqMapState,
+    seqMapDispatch,
+    seqRecDispatch,
+  } = useContext(seqContext);
   const [isActive, setIsActive] = useState(false);
-  const loopLength = "1/2m";
 
   const clickHandler = () => {
     let updatedActiveStatus = !isActive;
     setIsActive(updatedActiveStatus);
     if (updatedActiveStatus) {
-      dispatch({
+      seqRecDispatch({
         type: "add",
         payload: {
+          presetId: presetId,
+          soundLocation: soundLocation,
           timeStamp: timeStamp,
-          soundTarget: soundTarget,
-          type: "loop",
         },
       });
     } else if (!updatedActiveStatus) {
-      dispatch({
+      seqRecDispatch({
         type: "remove",
-        payload: { timeStamp: timeStamp, soundTarget: soundTarget },
+        payload: {
+          presetId: presetId,
+          soundLocation: soundLocation,
+          timeStamp: timeStamp,
+        },
       });
     }
   };
@@ -37,6 +49,17 @@ function SeqCellLoopHalfm({
     loopLength,
     loopPosition
   );
+
+  useEffect(() => {
+    if (seqMapState[presetId][soundLocation]) {
+      player.start();
+      seqMapDispatch({
+        type: "deactivate",
+        payload: { presetId: presetId, soundLocation: soundLocation },
+      });
+    }
+  }, [seqMapState[presetId][soundLocation]]);
+
   return (
     <>
       {timeStamps.includes(displayTime) && isActive && (

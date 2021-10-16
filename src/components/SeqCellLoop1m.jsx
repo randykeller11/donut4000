@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "./SequencerCellLoop1m.css";
-import { timeStampArray, calcLoopTimeStamps } from "./helpers";
+import "./SeqCellLoop1m.css";
+import { timeStampArray, calcLoopTimeStamps } from "../helpers";
 
-function SequencerCellLoop1m({
+function SeqCellLoop1m({
   displayTime,
   dispatch,
   soundTarget,
@@ -64,4 +64,4 @@ function SequencerCellLoop1m({
   );
 }
 
-export default SequencerCellLoop1m;
+export default SeqCellLoop1m;
