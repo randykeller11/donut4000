@@ -7,6 +7,7 @@ import "./Donut.css";
 import usePianoLoops from "../hooks/usePianoLoops";
 import PianoLoop from "../presets/bank1/PianoLoop";
 import { initSeqMapState, seqMapReducer } from "../reducers/seqMapReducer";
+import DrumKit from "../presets/bank1/DrumKit";
 
 import { seqRecReducer } from "../reducers/seqRecReducer";
 
@@ -112,7 +113,7 @@ function Donut() {
           }}
         >
           <PianoLoop currentBeat={currentBeat} />
-          <PianoLoop currentBeat={currentBeat} />
+          <DrumKit currentBeat={currentBeat} />
         </seqContext.Provider>
       </div>
 

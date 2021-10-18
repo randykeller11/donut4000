@@ -1,19 +1,18 @@
 import React, { useEffect, useReducer } from "react";
-import pianoLoop1 from "../../assets/sounds/pianoLoop1.wav";
-import pianoLoop2 from "../../assets/sounds/pianoLoop2.wav";
-import pianoLoop3 from "../../assets/sounds/pianoLoop3.wav";
-import pianoLoop4 from "../../assets/sounds/pianoLoop4.wav";
 import useDynamicPlayers from "../../hooks/useDynamicPlayers";
-import SeqTrackLoop from "../../components/SeqTrackLoop";
-import "./PianoLoop.css";
+import drumLoop1 from "../../assets/sounds/drumLoop1.wav";
+import drumLoop2 from "../../assets/sounds/drumLoop2.wav";
+import drumLoop3 from "../../assets/sounds/drumLoop3.wav";
+import drumLoop4 from "../../assets/sounds/drumLoop4.wav";
+import "./DrumKit.css";
 import { seqRecReducer } from "../../reducers/seqRecReducer";
+import SeqTrackLoop from "../../components/SeqTrackLoop";
 
-const samples = [pianoLoop1, pianoLoop2, pianoLoop3, pianoLoop4];
+const samples = [drumLoop1, drumLoop2, drumLoop3, drumLoop4];
 
-function PianoLoop({ currentBeat }) {
+function DrumKit({ currentBeat }) {
   const [players, loading] = useDynamicPlayers(samples);
   const [recordings, recDispatch] = useReducer(seqRecReducer, []);
-
   useEffect(() => {
     recordings.forEach((recording) => {
       if (recording.timeStamp === currentBeat) {
@@ -21,15 +20,16 @@ function PianoLoop({ currentBeat }) {
       }
     });
   }, [currentBeat]);
+
   return (
     <div className="preset">
       {!loading &&
         players.map((player, i) => (
           <div className="presetTrack">
-            <h5>{`pianoLoop${i + 1}`}</h5>
+            <h5>{`drumLoop${i + 1}`}</h5>
             <div className="presetTrack__seq">
               <SeqTrackLoop
-                loopLength={"1/2m"}
+                loopLength={"1/4m"}
                 soundLocation={i}
                 presetId={0}
                 recDispatch={recDispatch}
@@ -41,4 +41,4 @@ function PianoLoop({ currentBeat }) {
   );
 }
 
-export default PianoLoop;
+export default DrumKit;
