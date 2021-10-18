@@ -1,0 +1,14 @@
+.preset {
+  display: flex;
+  flex-flow: column;
+}
+
+.presetTrack {
+  display: flex;
+  justify-content: space-between;
+}
+
+.presetTrack__seq {
+  display: flex;
+  width: 75vw;
+}

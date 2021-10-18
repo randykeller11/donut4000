@@ -2,31 +2,24 @@ import React, { useState, useEffect, useReducer } from "react";
 import * as Tone from "tone";
 import useLoadPlayers from "../hooks/useLoadPlayers";
 import useKeyPress from "../hooks/useKeyPress";
-import SeqTrackOneShot from "../components/SeqTrackOneShot";
 import SeqTransport from "../components/SeqTransport";
-import { sequencerMap } from "../helpers";
 import "./Donut.css";
 import usePianoLoops from "../hooks/usePianoLoops";
-import SeqTrackLoop from "../components/SeqTrackLoop";
 import PianoLoop from "../presets/bank1/PianoLoop";
 import { initSeqMapState, seqMapReducer } from "../reducers/seqMapReducer";
 
-import { initSeqRecState, seqRecReducer } from "../reducers/seqRecReducer";
+import { seqRecReducer } from "../reducers/seqRecReducer";
 
 export const seqContext = React.createContext();
 
 function Donut() {
-  const [players, loading] = useLoadPlayers();
   const [keyPressedDown, keyPressedUp, setKeyPressedUp] = useKeyPress(" ");
   const [currentBeat, setCurrentBeat] = useState(null);
   const [displayTime, setDisplayTime] = useState(null);
   const [bpm, setBpm] = useState(90);
   const [pianoLoops, pianoLoopsLoading] = usePianoLoops();
 
-  const [seqRecState, seqRecDispatch] = useReducer(
-    seqRecReducer,
-    initSeqRecState
-  );
+  const [seqRecState, seqRecDispatch] = useReducer(seqRecReducer, []);
 
   const [seqMapState, seqMapDispatch] = useReducer(
     seqMapReducer,
@@ -118,7 +111,8 @@ function Donut() {
             seqRecDispatch,
           }}
         >
-          <PianoLoop />
+          <PianoLoop currentBeat={currentBeat} />
+          <PianoLoop currentBeat={currentBeat} />
         </seqContext.Provider>
       </div>
 
