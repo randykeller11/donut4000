@@ -1,7 +1,7 @@
 import React from "react";
 import * as Tone from "tone";
 
-function SequencerTransport({ bpm, setBpm }) {
+function SeqTransport({ bpm, setBpm }) {
   return (
     <div>
       <button
@@ -54,4 +54,4 @@ function SequencerTransport({ bpm, setBpm }) {
   );
 }
 
-export default SequencerTransport;
+export default SeqTransport;

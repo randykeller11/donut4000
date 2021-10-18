@@ -1,25 +1,31 @@
 import React, { useState, useEffect, useReducer } from "react";
 import * as Tone from "tone";
-import useLoadPlayers from "./hooks/useLoadPlayers";
-import useKeyPress from "./hooks/useKeyPress";
-import SequencerTrackOneShot from "./SequencerTrackOneShot";
-import SequencerTransport from "./SequencerTransport";
-import { sequencerMap } from "./helpers";
+import useLoadPlayers from "../hooks/useLoadPlayers";
+import useKeyPress from "../hooks/useKeyPress";
+import SeqTransport from "../components/SeqTransport";
 import "./Donut.css";
-import usePianoLoops from "./hooks/usePianoLoops";
-import SequencerTrackLoop from "./SequencerTrackLoop";
+import usePianoLoops from "../hooks/usePianoLoops";
+import PianoLoop from "../presets/bank1/PianoLoop";
+import { initSeqMapState, seqMapReducer } from "../reducers/seqMapReducer";
+import DrumKit from "../presets/bank1/DrumKit";
 
-import { initialState, sequencerReducer } from "./reducers/sequencerReducer";
+import { seqRecReducer } from "../reducers/seqRecReducer";
+
+export const seqContext = React.createContext();
 
 function Donut() {
-  const [players, loading] = useLoadPlayers();
   const [keyPressedDown, keyPressedUp, setKeyPressedUp] = useKeyPress(" ");
   const [currentBeat, setCurrentBeat] = useState(null);
   const [displayTime, setDisplayTime] = useState(null);
   const [bpm, setBpm] = useState(90);
   const [pianoLoops, pianoLoopsLoading] = usePianoLoops();
 
-  const [sequencerState, dispatch] = useReducer(sequencerReducer, initialState);
+  const [seqRecState, seqRecDispatch] = useReducer(seqRecReducer, []);
+
+  const [seqMapState, seqMapDispatch] = useReducer(
+    seqMapReducer,
+    initSeqMapState
+  );
 
   const quantizeTransportPosition = (transportValue) => {
     const position = transportValue.split(":");
@@ -51,13 +57,15 @@ function Donut() {
   }, [bpm]);
 
   useEffect(() => {
-    sequencerState.forEach((recording) => {
+    seqRecState.forEach((recording) => {
       if (recording.timeStamp === currentBeat) {
-        if (recording.type === "oneShot") {
-          players[recording.soundTarget].start();
-        } else if (recording.type === "loop") {
-          pianoLoops[recording.soundTarget].player.start();
-        }
+        seqMapDispatch({
+          type: "activate",
+          payload: {
+            presetId: recording.presetId,
+            soundLocation: recording.soundLocation,
+          },
+        });
       }
     });
   }, [currentBeat]);
@@ -92,25 +100,21 @@ function Donut() {
   return (
     <div>
       <h1>Welcome to the 🍩 Donut 5000</h1>
-      <SequencerTransport bpm={bpm} setBpm={setBpm} />
+      <SeqTransport bpm={bpm} setBpm={setBpm} />
       <div className="sequencer">
-        {sequencerMap.map((name, index) => (
-          <SequencerTrackOneShot
-            displayTime={displayTime}
-            dispatch={dispatch}
-            soundTarget={index}
-            name={name}
-          />
-        ))}
-        {!pianoLoopsLoading &&
-          pianoLoops.map((loop, i) => (
-            <SequencerTrackLoop
-              dispatch={dispatch}
-              soundTarget={i}
-              displayTime={displayTime}
-              loopLength={"1/2m"}
-            />
-          ))}
+        <seqContext.Provider
+          value={{
+            bpm,
+            displayTime,
+            currentBeat,
+            seqMapState,
+            seqMapDispatch,
+            seqRecDispatch,
+          }}
+        >
+          <PianoLoop currentBeat={currentBeat} />
+          <DrumKit currentBeat={currentBeat} />
+        </seqContext.Provider>
       </div>
 
       <h1>display time:{displayTime}</h1>

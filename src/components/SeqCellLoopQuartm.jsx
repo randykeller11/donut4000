@@ -1,33 +1,36 @@
-import React, { useState } from "react";
-import "./SeqCellLoopHalfm.css";
-import { timeStampArray, calcLoopTimeStamps } from "./helpers";
+import React, { useState, useContext, useEffect } from "react";
+import "./SeqCellLoopQuartm.css";
+import { timeStampArray, calcLoopTimeStamps } from "../helpers";
+import { seqContext } from "../pages/Donut";
 
-function SeqCellLoopHalfm({
-  displayTime,
-  dispatch,
-  soundTarget,
+function SeqCellLoopQuartm({
+  soundLocation,
+  loopLength,
   timeStamp,
   loopPosition,
+  recDispatch,
 }) {
+  const { displayTime } = useContext(seqContext);
   const [isActive, setIsActive] = useState(false);
-  const loopLength = "1/2m";
 
   const clickHandler = () => {
     let updatedActiveStatus = !isActive;
     setIsActive(updatedActiveStatus);
     if (updatedActiveStatus) {
-      dispatch({
+      recDispatch({
         type: "add",
         payload: {
+          soundLocation: soundLocation,
           timeStamp: timeStamp,
-          soundTarget: soundTarget,
-          type: "loop",
         },
       });
     } else if (!updatedActiveStatus) {
-      dispatch({
+      recDispatch({
         type: "remove",
-        payload: { timeStamp: timeStamp, soundTarget: soundTarget },
+        payload: {
+          soundLocation: soundLocation,
+          timeStamp: timeStamp,
+        },
       });
     }
   };
@@ -37,29 +40,30 @@ function SeqCellLoopHalfm({
     loopLength,
     loopPosition
   );
+
   return (
     <>
       {timeStamps.includes(displayTime) && isActive && (
         <div
-          className="seqLoopCell__half__playing__active"
+          className="seqLoopCell__quart__playing__active"
           onClick={clickHandler}
         ></div>
       )}
       {timeStamps.includes(displayTime) && !isActive && (
         <div
-          className="seqLoopCell__half__playing__inactive"
+          className="seqLoopCell__quart__playing__inactive"
           onClick={clickHandler}
         ></div>
       )}
       {!timeStamps.includes(displayTime) && isActive && (
         <div
-          className="seqLoopCell__half__notPlaying__active"
+          className="seqLoopCell__quart__notPlaying__active"
           onClick={clickHandler}
         ></div>
       )}
       {!timeStamps.includes(displayTime) && !isActive && (
         <div
-          className="seqLoopCell__half__notPlaying__inactive"
+          className="seqLoopCell__quart__notPlaying__inactive"
           onClick={clickHandler}
         ></div>
       )}
@@ -67,4 +71,4 @@ function SeqCellLoopHalfm({
   );
 }
 
-export default SeqCellLoopHalfm;
+export default SeqCellLoopQuartm;

@@ -1,8 +1,8 @@
 import React from "react";
-import { timeStampArray } from "./helpers";
-import SequencerCellOneShot from "./SequencerCellOneShot";
+import { timeStampArray } from "../helpers";
+import SeqCellOneShot from "./SeqCellOneShot";
 
-function SequencerTrackOneShot({ displayTime, dispatch, soundTarget, name }) {
+function SeqTrackOneShot({ displayTime, dispatch, soundTarget, name }) {
   const checkIfMeasureEnd = (_ts) => {
     if (_ts === "0:0:0") {
       return true;
@@ -19,7 +19,7 @@ function SequencerTrackOneShot({ displayTime, dispatch, soundTarget, name }) {
       {timeStampArray.map((timeStamp) => {
         if (checkIfMeasureEnd(timeStamp)) {
           return (
-            <SequencerCellOneShot
+            <SeqCellOneShot
               timeStamp={timeStamp}
               displayTime={displayTime}
               dispatch={dispatch}
@@ -29,7 +29,7 @@ function SequencerTrackOneShot({ displayTime, dispatch, soundTarget, name }) {
           );
         } else {
           return (
-            <SequencerCellOneShot
+            <SeqCellOneShot
               timeStamp={timeStamp}
               displayTime={displayTime}
               dispatch={dispatch}
@@ -43,4 +43,4 @@ function SequencerTrackOneShot({ displayTime, dispatch, soundTarget, name }) {
   );
 }
 
-export default SequencerTrackOneShot;
+export default SeqTrackOneShot;

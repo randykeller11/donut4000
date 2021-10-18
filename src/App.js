@@ -1,6 +1,6 @@
 import "./App.css";
 import Test from "./Test";
-import Donut from "./Donut";
+import Donut from "./pages/Donut";
 
 function App() {
   return (

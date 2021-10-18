@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "./SequencerCellOneShot.css";
+import "./SeqCellOneShot.css";
 
-function SequencerCellOneShot({
+function SeqCellOneShot({
   timeStamp,
   displayTime,
   dispatch,
@@ -81,4 +81,4 @@ function SequencerCellOneShot({
   );
 }
 
-export default SequencerCellOneShot;
+export default SeqCellOneShot;

@@ -1,26 +1,31 @@
 import { useState, useEffect } from "react";
 import * as Tone from "tone";
-import pianoLoop from "../assets/sounds/pianoLoop.wav";
 
-function useDynamicPlayers() {
-  const [player, setPlayer] = useState(null);
+function useDynamicPlayers(samples) {
+  const [players, setPlayers] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  //load the player and audio buffers
+
   useEffect(() => {
-    const importSound = () => {
-      try {
-        setPlayer(new Tone.Player({ url: pianoLoop }).toDestination());
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    importSound();
-    const checkLoading = async () => {
+    const loadToneBuffers = async () => {
+      const playerArray = [];
+      samples.forEach((element) => {
+        playerArray.push(new Tone.Player({ url: element }).toDestination());
+      });
+
       await Tone.loaded();
+      setPlayers(playerArray);
       setLoading(false);
     };
-    checkLoading();
+    loadToneBuffers();
   }, []);
-  return [player, loading];
+
+  //once players are loaded set originial transport schedule and set up event listeners
+
+  //render the sequencer
+
+  return [players, loading];
 }
 
 export default useDynamicPlayers;

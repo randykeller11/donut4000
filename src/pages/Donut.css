@@ -1,9 +1,10 @@
 .sequencer {
   border: 2px solid black;
-  width: 80vw;
+  width: 90vw;
   height: 50vh;
   display: flex;
   flex-flow: column;
-  justify-content: space-between;
-  margin-left: 2vw;
+  justify-content: space-evenly;
+  margin-left: 5vw;
+  margin-right: 5vw;
 }
