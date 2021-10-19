@@ -22,7 +22,7 @@ function SeqCellLoopQuartm({
     });
     if (updatedActiveStatus) {
       recDispatch({
-        type: "add",
+        type: "addLoop",
         payload: {
           soundLocation: soundLocation,
           timeStamp: timeStamp,

@@ -8,6 +8,15 @@ export const seqRecReducer = (state, action) => {
           timeStamp: action.payload.timeStamp,
         },
       ];
+    case "addLoop":
+      const updateArray = state.filter(
+        (rec) => rec.timeStamp != action.payload.timeStamp
+      );
+      updateArray.push({
+        soundLocation: action.payload.soundLocation,
+        timeStamp: action.payload.timeStamp,
+      });
+      return updateArray;
     case "remove":
       return state.filter((recording) => {
         if (
