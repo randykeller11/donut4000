@@ -7,12 +7,20 @@ import drumLoop4 from "../../assets/sounds/drumLoop4.wav";
 import "./DrumKit.css";
 import { seqRecReducer } from "../../reducers/seqRecReducer";
 import SeqTrackLoop from "../../components/SeqTrackLoop";
+import { seqMapReducer } from "../../reducers/seqMapReducer";
 
 const samples = [drumLoop1, drumLoop2, drumLoop3, drumLoop4];
 
 function DrumKit({ currentBeat }) {
   const [players, loading] = useDynamicPlayers(samples);
   const [recordings, recDispatch] = useReducer(seqRecReducer, []);
+  const [seqMap, seqMapDispatch] = useReducer(seqMapReducer, [
+    { index: 0, map: [false, false, false, false] },
+    { index: 1, map: [false, false, false, false] },
+    { index: 2, map: [false, false, false, false] },
+    { index: 3, map: [false, false, false, false] },
+  ]);
+
   useEffect(() => {
     recordings.forEach((recording) => {
       if (recording.timeStamp === currentBeat) {
@@ -33,6 +41,8 @@ function DrumKit({ currentBeat }) {
                 soundLocation={i}
                 presetId={0}
                 recDispatch={recDispatch}
+                mapDispatch={seqMapDispatch}
+                trackMap={seqMap.find((trackMap) => trackMap.index === i)}
               />
             </div>
           </div>

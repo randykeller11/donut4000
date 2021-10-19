@@ -9,13 +9,17 @@ function SeqCellLoopQuartm({
   timeStamp,
   loopPosition,
   recDispatch,
+  isActive,
+  mapDispatch,
 }) {
   const { displayTime } = useContext(seqContext);
-  const [isActive, setIsActive] = useState(false);
 
   const clickHandler = () => {
     let updatedActiveStatus = !isActive;
-    setIsActive(updatedActiveStatus);
+    mapDispatch({
+      type: "activateLoop",
+      payload: { soundLocation: soundLocation, measureIndex: loopPosition },
+    });
     if (updatedActiveStatus) {
       recDispatch({
         type: "add",
@@ -25,6 +29,10 @@ function SeqCellLoopQuartm({
         },
       });
     } else if (!updatedActiveStatus) {
+      mapDispatch({
+        type: "deactivateLoop",
+        payload: { soundLocation: soundLocation, measureIndex: loopPosition },
+      });
       recDispatch({
         type: "remove",
         payload: {
