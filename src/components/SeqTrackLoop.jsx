@@ -17,7 +17,8 @@ function SeqTrackLoop({
 
   return (
     <>
-      {loopLength === "1/2m" &&
+      {trackMap &&
+        loopLength === "1/2m" &&
         timeStampDictionary[0].map((_ts, i) => (
           <SeqCellLoopHalfm
             soundLocation={soundLocation}
@@ -26,6 +27,7 @@ function SeqTrackLoop({
             loopPosition={i}
             recDispatch={recDispatch}
             mapDispatch={mapDispatch}
+            isActive={trackMap.map[i]}
           />
         ))}
       {trackMap &&

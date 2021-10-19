@@ -7,12 +7,19 @@ import useDynamicPlayers from "../../hooks/useDynamicPlayers";
 import SeqTrackLoop from "../../components/SeqTrackLoop";
 import "./PianoLoop.css";
 import { seqRecReducer } from "../../reducers/seqRecReducer";
+import { seqMapReducer } from "../../reducers/seqMapReducer";
 
 const samples = [pianoLoop1, pianoLoop2, pianoLoop3, pianoLoop4];
 
 function PianoLoop({ currentBeat }) {
   const [players, loading] = useDynamicPlayers(samples);
   const [recordings, recDispatch] = useReducer(seqRecReducer, []);
+  const [seqMap, seqMapDispatch] = useReducer(seqMapReducer, [
+    { index: 0, map: [false, false, false, false] },
+    { index: 1, map: [false, false, false, false] },
+    { index: 2, map: [false, false, false, false] },
+    { index: 3, map: [false, false, false, false] },
+  ]);
 
   useEffect(() => {
     recordings.forEach((recording) => {
@@ -33,6 +40,8 @@ function PianoLoop({ currentBeat }) {
                 soundLocation={i}
                 presetId={0}
                 recDispatch={recDispatch}
+                mapDispatch={seqMapDispatch}
+                trackMap={seqMap.find((trackMap) => trackMap.index === i)}
               />
             </div>
           </div>
